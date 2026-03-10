@@ -1,21 +1,11 @@
 import paramiko
 from pathlib import Path
 
-# -----------------------------
-# CHANGE THESE
-# -----------------------------
 HPC_HOST = "hpc2013.hpc.iitk.ac.in"
 HPC_USER = "makash24"
 
 ROOT = Path.cwd()
 
-# ==============================
-# FOLDER CONFIGURATION
-# Each entry:
-#   remote folder
-#   local subfolder
-#   base filename
-# ==============================
 FOLDERS= [
 
     {
@@ -35,18 +25,11 @@ FOLDERS= [
     },
 ]
 
-# -----------------------------
-# CONNECT
-# -----------------------------
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect(HPC_HOST, username=HPC_USER, password="Ak@sh587")
+ssh.connect(HPC_HOST, username=HPC_USER, password="Hidden")
 
 sftp = ssh.open_sftp()
-
-# ==============================
-# DOWNLOAD LOOP
-# ==============================
 
 for folder in FOLDERS:
 
@@ -82,11 +65,7 @@ for folder in FOLDERS:
         print("Saving as:", local_path)
 
         sftp.get(remote_path, str(local_path))
-
-# ==============================
-# CLOSE CONNECTION
-# ==============================
-
+        
 sftp.close()
 ssh.close()
 
@@ -195,3 +174,4 @@ print("\nAll downloads completed.")
 #         "base_name": "20bar_M0.4_TI10_T300K",
 #     },
 # ]
+
