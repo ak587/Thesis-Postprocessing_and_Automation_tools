@@ -18,18 +18,19 @@ field_meshes_slice = [Mach_meshes_slice, TI_meshes_slice, Temperature_meshes_sli
 field_labels = [Mach_labels, TI_labels, Temperature_labels, Re_labels]
 variable_folders = ["Mach", "TI", "Temperature", "Re"]
 
-# Field Variable Plots ----------------------------------------------------------------------------------------------------------------------
-# for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_meshes_slice, field_labels, variable_folders):
-#     (ROOT / "Data-analysis_results" / "Field_variables" / folder).mkdir(parents=True, exist_ok=True)
-#     for field_name in field_variables:
-#         downstream_plot(meshes_down, meshes_slice, field_name, labels, "Field_variables", folder)
-#         centerline_plot(meshes_slice, field_name, labels, "Field_variables", folder)
+Field Variable Plots ----------------------------------------------------------------------------------------------------------------------
+for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_meshes_slice, field_labels, variable_folders):
+    (ROOT / "Data-analysis_results" / "Field_variables" / folder).mkdir(parents=True, exist_ok=True)
+    for field_name in field_variables:
+        downstream_plot(meshes_down, meshes_slice, field_name, labels, "Field_variables", folder)
+        centerline_plot(meshes_slice, field_name, labels, "Field_variables", folder)
 
 # Contour plots
 (ROOT / "Data-analysis_results" / "testing" / "Re").mkdir(parents=True, exist_ok=True)
 contour_plot(Re_meshes_up, Re_meshes_slice, "PressureStagnation", Re_labels, "testing", "Re")
-# for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_meshes_slice, field_labels, variable_folders):
-#     (ROOT / "Data-analysis_results" / "testing" / folder).mkdir(parents=True, exist_ok=True)
-#     for field_name in field_variables:
-#         contour_plot(meshes_down, meshes_slice, field_name, labels, "testing", folder)
+for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_meshes_slice, field_labels, variable_folders):
+    (ROOT / "Data-analysis_results" / "testing" / folder).mkdir(parents=True, exist_ok=True)
+    for field_name in field_variables:
+        contour_plot(meshes_down, meshes_slice, field_name, labels, "testing", folder)
+
 
