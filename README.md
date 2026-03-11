@@ -26,7 +26,7 @@ A comprehensive suite of Python automation tools designed to streamline Computat
 
 | Component | Purpose |
 |-----------|---------|
-| **Fluent_data_export.py** | Export and process simulation data from ANSYS Fluent |
+| **Fluent_data_export.py** | Export data from ANSYS Fluent on HPC or locally|
 | **Fluent_results.py** | Parse and extract key results from Fluent simulations |
 | **Fluent_local_no_gui.py** | Run Fluent simulations headless (without GUI) for automation |
 | **Post-processing.py** | Main post-processing orchestration script |
@@ -66,10 +66,3 @@ Users can leverage these tools to:
 3. Integrate CFD workflows into larger automated pipelines
 4. Reduce manual data processing time significantly
 
-## Contact
-
-For inquiries about this project or to discuss CFD automation, Python development, or scientific computing expertise, feel free to reach out!
-
----
-
-**Language**: Python (100%) | **Project Type**: Engineering Automation Tools
