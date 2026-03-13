@@ -213,7 +213,7 @@ def contour_plot(meshes_down, meshes_slice, field_name, labels, folder, subfolde
     colors = ['orange', 'green', 'blue', 'red', 'cyan', 'magenta']
     inlet_pressure = import_inlet_pressure(meshes_slice) if field_name == "PressureStagnation" else np.ones(len(meshes_slice))
     xi, yi, Xi, Yi = cartesian_meshgrid(meshes_down[0])
-    levels = 0.9
+    levels = [0.9]
 
     # Variable Profile along X-axis
     for lvl in levels:
@@ -244,6 +244,7 @@ def contour_plot(meshes_down, meshes_slice, field_name, labels, folder, subfolde
         plt.tight_layout(rect=[0, 0.05, 1, 1])
         plt.savefig(ROOT / "Data-analysis_results" /folder / subfolder / f"{lvl:.2f}-{field_name}_Contour_plots.png")
         print(f"{lvl:.2f}-{subfolder}-{field_name} contour plot created")
+
 
 
 
