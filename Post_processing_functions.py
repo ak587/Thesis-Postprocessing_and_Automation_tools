@@ -1,4 +1,3 @@
-from importlib.metadata import files
 import pyvista as pv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,44 +7,75 @@ from pathlib import Path
 # Loading Data
 ROOT = Path.cwd()
 def load_meshes():
-    Mach_files = [ROOT / "Data-analysis_files" / "Mach_files" / f for f in ["M0.076_TI5_T300K_2bar_down.cgns", "M0.26_TI5_T300K_2bar_down.cgns", "M0.4_TI5_T300K_2bar_down.cgns", 
-                "M0.45_TI5_T300K_2bar_down.cgns","M0.47_TI5_T300K_2bar_down.cgns", "M0.48_TI5_T300K_2bar_down.cgns", "M0.076_TI5_T300K_2bar_up.cgns", "M0.26_TI5_T300K_2bar_up.cgns", 
-                "M0.4_TI5_T300K_2bar_up.cgns","M0.45_TI5_T300K_2bar_up.cgns","M0.47_TI5_T300K_2bar_up.cgns", "M0.48_TI5_T300K_2bar_up.cgns", "M0.076_TI5_T300K_2bar_slice.cgns", 
-                "M0.26_TI5_T300K_2bar_slice.cgns", "M0.4_TI5_T300K_2bar_slice.cgns", "M0.45_TI5_T300K_2bar_slice.cgns","M0.47_TI5_T300K_2bar_slice.cgns", 
-                "M0.48_TI5_T300K_2bar_slice.cgns"]]
+    Mach_numbers = [0.076, 0.26, 0.4, 0.45, 0.47, 0.48]
+    Reynolds_numbers = [1, 2, 5, 10, 20]
+    Temperature = [300, 350, 400, 600, 300, 600]
+    Turbulence_Intensity = [0.1, 1, 5, 10]
+    location = ["_slice", "_upstream-1d", "_upstream-2d", "_downstream-1d", "_downstream-2d", "_downstream-3d", "_downstream-4d", "_downstream-5d"]
 
-    TI_files = [ROOT /  "Data-analysis_files" / "TI_files" / f for f in ["TI0.1_M0.4_T300K_2bar_down.cgns", "TI1_M0.4_T300K_2bar_down.cgns", "TI5_M0.4_T300K_2bar_down.cgns", 
-                "TI10_M0.4_T300K_2bar_down.cgns","TI0.1_M0.4_T300K_2bar_up.cgns", "TI1_M0.4_T300K_2bar_up.cgns", "TI5_M0.4_T300K_2bar_up.cgns", "TI10_M0.4_T300K_2bar_up.cgns", 
-                "TI0.1_M0.4_T300K_2bar_slice.cgns", "TI1_M0.4_T300K_2bar_slice.cgns", "TI5_M0.4_T300K_2bar_slice.cgns", "TI10_M0.4_T300K_2bar_slice.cgns"]]
+    Mach_files = []
+    Re_files = []
+    Temperature_files = []
+    TI_files = []
 
-    Temperature_files = [ROOT / "Data-analysis_files" / "Temperature_files" / f for f in ["T300K_M0.4_TI5_2bar_down.cgns", "T350K_M0.4_TI5_2bar_down.cgns",
-                        "T400K_M0.4_TI5_2bar_down.cgns", "T600K_M0.4_TI5_2bar_down.cgns", "T300K_M0.45_TI5_2bar_down.cgns", "T600K_M0.45_TI5_2bar_down.cgns", 
-                        "T300K_M0.4_TI5_2bar_up.cgns", "T350K_M0.4_TI5_2bar_up.cgns", "T400K_M0.4_TI5_2bar_up.cgns", "T600K_M0.4_TI5_2bar_up.cgns", "T300K_M0.45_TI5_2bar_up.cgns", 
-                        "T600K_M0.45_TI5_2bar_up.cgns", "T300K_M0.4_TI5_2bar_slice.cgns", "T350K_M0.4_TI5_2bar_slice.cgns", "T400K_M0.4_TI5_2bar_slice.cgns", 
-                        "T600K_M0.4_TI5_2bar_slice.cgns", "T300K_M0.45_TI5_2bar_slice.cgns", "T600K_M0.45_TI5_2bar_slice.cgns"]]   
+    for loc in location:    
+        for M in Mach_numbers:
+            Mach_files.append(ROOT / "Data-analysis_files" / "Mach_files" / f"M{M}_TI5_T300K_2bar{loc}.cgns")
 
-    Re_files = [ROOT / "Data-analysis_files" / "Re_files" / f for f in ["1bar_M0.4_TI10_T300K_down.cgns", "2bar_M0.4_TI10_T300K_down.cgns", "5bar_M0.4_TI10_T300K_down.cgns", 
-                "10bar_M0.4_TI10_T300K_down.cgns","20bar_M0.4_TI10_T300K_down.cgns","1bar_M0.4_TI10_T300K_up.cgns", "2bar_M0.4_TI10_T300K_up.cgns", "5bar_M0.4_TI10_T300K_up.cgns", 
-                "10bar_M0.4_TI10_T300K_up.cgns", "20bar_M0.4_TI10_T300K_up.cgns", "1bar_M0.4_TI10_T300K_slice.cgns", "2bar_M0.4_TI10_T300K_slice.cgns", 
-                "5bar_M0.4_TI10_T300K_slice.cgns", "10bar_M0.4_TI10_T300K_slice.cgns", "20bar_M0.4_TI10_T300K_slice.cgns"]]
+    for loc in location:
+        for Re in Reynolds_numbers:
+            Re_files.append(ROOT / "Data-analysis_files" / "Re_files" / f"{Re}bar_M0.4_TI10_T300K{loc}.cgns")
 
-    Mach_meshes_down = [pv.read(file).combine() for file in Mach_files[0:6]]   # Down (first 6 files), Up (next 6 files), Slice (last 6 files)
-    Mach_meshes_up = [pv.read(file).combine() for file in Mach_files[6:12]]
-    Mach_meshes_slice = [pv.read(file).combine() for file in Mach_files[12:18]]
+    for loc in location:
+        for i, T in enumerate(Temperature):
+            if i < 4:
+                Temperature_files.append(ROOT / "Data-analysis_files" / "Temperature_files" / f"T{T}K_M0.4_TI5_2bar{loc}.cgns")
+            else:
+                Temperature_files.append(ROOT / "Data-analysis_files" / "Temperature_files" / f"T{T}K_M0.45_TI5_2bar{loc}.cgns")
 
-    TI_meshes_down = [pv.read(file).combine() for file in TI_files[0:4]]   # Down (first 4 files), Up (next 4 files), Slice (last 4 files)
-    TI_meshes_up = [pv.read(file).combine() for file in TI_files[4:8]]
-    TI_meshes_slice = [pv.read(file).combine() for file in TI_files[8:12]]
+    for loc in location:
+        for TI in Turbulence_Intensity:
+            TI_files.append(ROOT / "Data-analysis_files" / "TI_files" / f"TI{TI}_M0.4_T300K_2bar{loc}.cgns")
+    
+    Mach_meshes_slice = [pv.read(file).combine() for file in Mach_files[0:6]]
+    Mach_meshes_upstream_1d = [pv.read(file).combine() for file in Mach_files[6:12]]
+    Mach_meshes_upstream_2d = [pv.read(file).combine() for file in Mach_files[12:18]]
+    Mach_meshes_downstream_1d = [pv.read(file).combine() for file in Mach_files[18:24]]   
+    Mach_meshes_downstream_2d = [pv.read(file).combine() for file in Mach_files[24:30]]   
+    Mach_meshes_downstream_3d = [pv.read(file).combine() for file in Mach_files[30:36]]   
+    Mach_meshes_downstream_4d = [pv.read(file).combine() for file in Mach_files[36:42]]   
+    Mach_meshes_downstream_5d = [pv.read(file).combine() for file in Mach_files[42:48]]   
 
-    Temperature_meshes_down = [pv.read(file).combine() for file in Temperature_files[0:6]]   # Down (first 6 files), Up (next 6 files), Slice (last 6 files)
-    Temperature_meshes_up = [pv.read(file).combine() for file in Temperature_files[6:12]]
-    Temperature_meshes_slice = [pv.read(file).combine() for file in Temperature_files[12:18]]
+    Re_meshes_slice = [pv.read(file).combine() for file in Re_files[0:5]]
+    Re_meshes_upstream_1d = [pv.read(file).combine() for file in Re_files[5:10]]
+    Re_meshes_upstream_2d = [pv.read(file).combine() for file in Re_files[10:15]]
+    Re_meshes_downstream_1d = [pv.read(file).combine() for file in Re_files[15:20]]   
+    Re_meshes_downstream_2d = [pv.read(file).combine() for file in Re_files[20:25]]   
+    Re_meshes_downstream_3d = [pv.read(file).combine() for file in Re_files[25:30]]   
+    Re_meshes_downstream_4d = [pv.read(file).combine() for file in Re_files[30:35]]   
+    Re_meshes_downstream_5d = [pv.read(file).combine() for file in Re_files[35:40]]  
 
-    Re_meshes_down = [pv.read(file).combine() for file in Re_files[1:5]]   # Down (first 5 files), Up (next 5 files), Slice (last 5 files)
-    Re_meshes_up = [pv.read(file).combine() for file in Re_files[6:10]]
-    Re_meshes_slice = [pv.read(file).combine() for file in Re_files[11:15]]
-    return ROOT, Mach_meshes_down, Mach_meshes_up, Mach_meshes_slice, TI_meshes_down, TI_meshes_up, TI_meshes_slice, Temperature_meshes_down, \
-        Temperature_meshes_up, Temperature_meshes_slice, Re_meshes_down, Re_meshes_up, Re_meshes_slice
+    Temperature_meshes_slice = [pv.read(file).combine() for file in Temperature_files[0:6]]
+    Temperature_meshes_upstream_1d = [pv.read(file).combine() for file in Temperature_files[6:12]]
+    Temperature_meshes_upstream_2d = [pv.read(file).combine() for file in Temperature_files[12:18]]
+    Temperature_meshes_downstream_1d = [pv.read(file).combine() for file in Temperature_files[18:24]]   
+    Temperature_meshes_downstream_2d = [pv.read(file).combine() for file in Temperature_files[24:30]]   
+    Temperature_meshes_downstream_3d = [pv.read(file).combine() for file in Temperature_files[30:36]]   
+    Temperature_meshes_downstream_4d = [pv.read(file).combine() for file in Temperature_files[36:42]]   
+    Temperature_meshes_downstream_5d = [pv.read(file).combine() for file in Temperature_files[42:48]]  
+
+    TI_meshes_slice = [pv.read(file).combine() for file in TI_files[0:4]]
+    TI_meshes_upstream_1d = [pv.read(file).combine() for file in TI_files[4:8]]
+    TI_meshes_upstream_2d = [pv.read(file).combine() for file in TI_files[8:12]]
+    TI_meshes_downstream_1d = [pv.read(file).combine() for file in TI_files[12:16]]   
+    TI_meshes_downstream_2d = [pv.read(file).combine() for file in TI_files[16:20]]   
+    TI_meshes_downstream_3d = [pv.read(file).combine() for file in TI_files[20:24]]   
+    TI_meshes_downstream_4d = [pv.read(file).combine() for file in TI_files[24:28]]   
+    TI_meshes_downstream_5d = [pv.read(file).combine() for file in TI_files[28:32]]  
+    return ROOT, Mach_meshes_slice, Mach_meshes_upstream_1d, Mach_meshes_upstream_2d, Mach_meshes_downstream_1d, Mach_meshes_downstream_2d, Mach_meshes_downstream_3d, Mach_meshes_downstream_4d, Mach_meshes_downstream_5d, \
+        Re_meshes_slice, Re_meshes_upstream_1d, Re_meshes_upstream_2d, Re_meshes_downstream_1d, Re_meshes_downstream_2d, Re_meshes_downstream_3d, Re_meshes_downstream_4d, Re_meshes_downstream_5d, \
+        Temperature_meshes_slice, Temperature_meshes_upstream_1d, Temperature_meshes_upstream_2d, Temperature_meshes_downstream_1d, Temperature_meshes_downstream_2d, Temperature_meshes_downstream_3d, Temperature_meshes_downstream_4d, Temperature_meshes_downstream_5d, \
+        TI_meshes_slice, TI_meshes_upstream_1d, TI_meshes_upstream_2d, TI_meshes_downstream_1d, TI_meshes_downstream_2d, TI_meshes_downstream_3d, TI_meshes_downstream_4d, TI_meshes_downstream_5d
 
 # Helper Functions
 def polar_meshgrid(mesh):
@@ -183,33 +213,40 @@ def contour_plot(meshes_down, meshes_slice, field_name, labels, folder, subfolde
     colors = ['orange', 'green', 'blue', 'red', 'cyan', 'magenta']
     inlet_pressure = import_inlet_pressure(meshes_slice) if field_name == "PressureStagnation" else np.ones(len(meshes_slice))
     xi, yi, Xi, Yi = cartesian_meshgrid(meshes_down[0])
+    levels = np.linspace(1, 0.8, 20)
 
     # Variable Profile along X-axis
-    plt.figure(figsize=(18, 8))     
-    big = plt.subplot2grid((2, 4), (0, 0), rowspan=2, colspan=2)
-    for i, (mesh, label, color) in enumerate(zip(meshes_down, labels, colors)):
-        if field_name == "Velocity":
-            field_grid = griddata((mesh.points[:, 0], mesh.points[:, 1]), mesh.point_data[field_name][:, 2], (Xi, Yi), method="linear")
-        else:
-            field_grid = griddata((mesh.points[:, 0], mesh.points[:, 1]), mesh.point_data[field_name], (Xi, Yi), method="linear")
-        field_grid_normalized = field_grid / inlet_pressure[i]
+    for lvl in levels:
+        fig = plt.figure(figsize=(18, 8))     
+        big = plt.subplot2grid((2, 5), (0, 0), rowspan=2, colspan=2)
+        legend = []
+        for i, (mesh, label, color) in enumerate(zip(meshes_down, labels, colors)):
+            if field_name == "Velocity":
+                field_grid = griddata((mesh.points[:, 0], mesh.points[:, 1]), mesh.point_data[field_name][:, 2], (Xi, Yi), method="linear")
+            else:
+                field_grid = griddata((mesh.points[:, 0], mesh.points[:, 1]), mesh.point_data[field_name], (Xi, Yi), method="linear")
+            field_grid_normalized = field_grid / inlet_pressure[i]
+            
+            plt.sca(big)
+            plt.contour(xi, yi, field_grid_normalized, colors=color, levels=[lvl])
+            plt.xlabel("x-location [m]")
+            plt.ylabel("y-location [m]")
+            plt.title(f"{field_name} Cotour, P_norm={lvl:.2f}")            
+            line, = plt.plot([], [], color=color, label=label)
+            legend.append(line)
 
-        plt.sca(big)
-        plt.contour(xi, yi, field_grid_normalized, levels=[1], colors=color)
-        plt.title(f"Combined contour lines at P=0.9")
-        plt.xlabel("x-location [m]")
-        plt.ylabel("y-location [m]")
-        plt.legend()
+            plt.subplot2grid((2, 5), (0, i+2)) if i<3 else plt.subplot2grid((2, 5), (1, i-1))
+            plt.contour(xi, yi, field_grid_normalized, colors=color, levels=[lvl])
+            plt.xlabel("x-location [m]")
+            plt.ylabel("y-location [m]")
+            plt.title(f"{field_name} Cotour at {label}")
+        fig.legend(handles=legend, loc='lower center', ncol=len(labels), bbox_to_anchor=(0.5, 0.02))
+        plt.tight_layout(rect=[0, 0.05, 1, 1])
+        plt.savefig(ROOT / "Data-analysis_results" /folder / subfolder / f"{lvl:.2f}-{field_name}_Contour_plots.png")
+        print(f"{lvl:.2f}-{subfolder}-{field_name} contour plot created")
 
-        plt.subplot2grid((2, 4), (0, i+2)) if i<2 else plt.subplot2grid((2, 4), (1, i))
-        plt.contourf(xi, yi, field_grid_normalized)
-        plt.xlabel("x-location [m]")
-        plt.ylabel("y-location [m]")
-        plt.title(f"{field_name} Cotour at {label}")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(ROOT / "Data-analysis_results" /folder / subfolder / f"{field_name}_Contour_plots")
-    print(f"{subfolder}-{field_name} contour plot created")
+
+
 
 
 
