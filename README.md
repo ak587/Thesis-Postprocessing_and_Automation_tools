@@ -39,9 +39,9 @@ The pipeline generates three primary types of visualizations to characterize the
 
 <table style="width: 100%; border: none;">
   <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Centerline" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Centerline" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Centerline" width="100%"><br>Temperature sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Centerline.png" width="100%"><br>Turbulence Intensity sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Centerline.png" width="100%"><br><b>Reynolds number sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Centerline.png" width="100%"><br>Temperature sweep</td>
   </tr>
 </table>
 
@@ -55,9 +55,9 @@ These plots track the evolution of the flow along the $Z$-axis (flow direction).
 
 <table style="width: 100%; border: none;">
   <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/Mach_Profile_Downstream" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/Mach_Profile_Downstream" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/Mach_Profile_Downstream" width="100%"><br>Temperature sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/Mach_Profile_Downstream.png" width="100%"><br>Turbulence Intensity sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/Mach_Profile_Downstream.png" width="100%"><br><b>Reynolds number sweep</td>
+    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/Mach_Profile_Downstream.png" width="100%"><br>Temperature sweep</td>
   </tr>
 </table>
 
