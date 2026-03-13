@@ -27,15 +27,15 @@ The pipeline generates three primary types of visualizations to characterize the
 
 1. Mach Profile Centerlines
 
-[Turbulent Intensity](Data-analysis_results/Field_variables/TI/Mach_Profile_Centerline.png)
-[Reynolds number](Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png)
-[Temperature](Data-analysis_results/Field_variables/Temperature/Mach_Profile_Centerline.png)
+![Turbulent Intensity](Data-analysis_results/Field_variables/TI/Mach_Profile_Centerline.png)
+![Reynolds number](Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png)
+![Temperature](Data-analysis_results/Field_variables/Temperature/Mach_Profile_Centerline.png)
 
 2. Normalized Stagnation Pressure Centerline
 
-[Turbulent Intensity](Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Centerline.png)
-[Reynolds number](Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Centerline.png)
-[Temperature](Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Centerline.png)
+![Turbulent Intensity](Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Centerline.png)
+![Reynolds number](Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Centerline.png)
+![Temperature](Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Centerline.png)
 
 These plots track the evolution of the flow along the $Z$-axis (flow direction).
 *   **What it shows**: The transition from inlet conditions through a perforated screen (at $z=0$) into the downstream recovery region.
@@ -45,15 +45,15 @@ These plots track the evolution of the flow along the $Z$-axis (flow direction).
 
 1. Mach Profile downstream
 
-[Turbulent Intensity](Data-analysis_results/Field_variables/TI/Mach_Profile_downstream.png)
-[Reynolds number](Data-analysis_results/Field_variables/Re/Mach_Profile_downstream.png)
-[Temperature](Data-analysis_results/Field_variables/Temperature/Mach_Profile_downstream.png)
+![Turbulent Intensity](Data-analysis_results/Field_variables/TI/Mach_Profile_downstream.png)
+![Reynolds number](Data-analysis_results/Field_variables/Re/Mach_Profile_downstream.png)
+![Temperature](Data-analysis_results/Field_variables/Temperature/Mach_Profile_downstream.png)
 
 2. Normalized Stagnation Pressure downstream
 
-[Turbulent Intensity](Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_downstream.png)
-[Reynolds number](Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_downstream.png)
-[Temperature](Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_downstream.png)
+![Turbulent Intensity](Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_downstream.png)
+![Reynolds number](Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_downstream.png)
+![Temperature](Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_downstream.png)
 
 Flow data is extracted from 2D slices downstream of the disturbance.
 *   **Cartesian Profiles**: These 2D slices 1D (50mm) downstream of the screen show the periodic Mach deficits caused by the grid.
@@ -63,7 +63,7 @@ Flow data is extracted from 2D slices downstream of the disturbance.
 ### 3. Normalized Stagnation Pressure Contours
 Combined contour plots (Reynolds sweep)
 
-[Turbulent Intensity](Data-analysis_results/Combined_Contour_plot/Re/0.90-PressureStagnation_Contour_plots.png)
+![Turbulent Intensity](Data-analysis_results/Combined_Contour_plot/Re/0.90-PressureStagnation_Contour_plots.png)
 
 A comparative look at how Reynolds Number ($Re$) affects the distortion.
 *   **What it shows**: Iso-contours of $P_{norm} = 0.90$. 
