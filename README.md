@@ -27,6 +27,12 @@ The pipeline generates three primary types of visualizations to characterize the
 
 1. Mach Profile Centerlines
 
+<p align="center">
+  <img src="Data-analysis_results/Field_variables/TI/Mach_Profile_Centerline.png" width="32%">
+  <img src="Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png" width="32%">
+  <img src="Data-analysis_results/Field_variables/Temperature/Mach_Profile_Centerline.png" width="32%">
+</p>
+
 ![Turbulent Intensity](Data-analysis_results/Field_variables/TI/Mach_Profile_Centerline.png)
 ![Reynolds number](Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png)
 ![Temperature](Data-analysis_results/Field_variables/Temperature/Mach_Profile_Centerline.png)
