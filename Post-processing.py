@@ -15,10 +15,10 @@ Re_labels = ['Re=4.1e5', 'Re=8.3e5', 'Re=2.1e6', 'Re=4.2e6', 'Re=8.3e6']
 
 # Field variables
 field_variables = ["Mach", "PressureStagnation"]
-field_meshes_down = [Mach_meshes_downstream_1d, TI_meshes_downstream_1d, Temperature_meshes_downstream_1d, Re_meshes_downstream_1d]
-field_meshes_slice = [Mach_meshes_slice, TI_meshes_slice, Temperature_meshes_slice, Re_meshes_slice]
-field_labels = [Mach_labels, TI_labels, Temperature_labels, Re_labels]
-variable_folders = ["Mach", "TI", "Temperature", "Re"]
+field_meshes_down = [TI_meshes_downstream_1d, Temperature_meshes_downstream_1d, Re_meshes_downstream_1d]
+field_meshes_slice = [TI_meshes_slice, Temperature_meshes_slice, Re_meshes_slice]
+field_labels = [TI_labels, Temperature_labels, Re_labels]
+variable_folders = ["TI", "Temperature", "Re"]
 
 # Field Variable Plots ----------------------------------------------------------------------------------------------------------------------
 for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_meshes_slice, field_labels, variable_folders):
@@ -31,4 +31,5 @@ for meshes_down, meshes_slice, labels, folder in zip(field_meshes_down, field_me
 print(Re_meshes_downstream_1d[0].point_data.keys())
 (ROOT / "Data-analysis_results" / "Combined_Contour_plot" / "Re").mkdir(parents=True, exist_ok=True)
 contour_plot(Re_meshes_downstream_1d, Re_meshes_slice, "PressureStagnation", Re_labels, "testing", "Re")
+
 
