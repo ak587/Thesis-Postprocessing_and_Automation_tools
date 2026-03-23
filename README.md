@@ -1,116 +1,79 @@
-# Automated CFD Post-Processing & Sensitivity Analysis Pipeline
+# Automated CFD Post-Processing & Headless Simulation Pipeline
 
-This repository showcases an end-to-end automated pipeline for extracting, processing, and visualising high-volume computational fluid dynamics (CFD) data. Using **Ansys Fluent**, **Python (PyVista/SciPy)**, and **Matplotlib**, the project analyses flow field sensitivity across varying Mach numbers, Reynolds numbers, Turbulence Intensities (TI), and Temperatures.
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![PyVista](https://img.shields.io/badge/Data%20Handling-PyVista-orange.svg)](https://docs.pyvista.org/)
+[![SciPy](https://img.shields.io/badge/Math-SciPy-lightblue.svg)](https://scipy.org/)
+[![Fluent](https://img.shields.io/badge/Solver-Ansys%20Fluent-yellow.svg)](https://www.ansys.com/)
 
-## Project Overview
+## The Engineering Challenge (And Solution)
+In high-fidelity aerodynamic studies, extracting and post-processing large 3D datasets (e.g., 11M+ cells) via traditional GUI-based tools (CFD-Post/Tecplot) is a severe bottleneck. 
 
-The core challenge addressed here is the efficient analysis of multiple CFD simulation cases. Instead of manual post-processing, this project utilises:
-1.  **Fluent Automation**: Python-generated Journal files to batch-export 2D surface data in `.cgns` format.
-2.  **Data Processing**: A custom Python library to handle 3D mesh interpolation, coordinate transformations (Cartesian to Polar), and normalisation.
-3.  **Visualisation**: Automated generation of comparative plots to identify physical trends in wakes and pressure drops.
+This repository contains a **scalable Python infrastructure** built to completely automate the extraction, interpolation, and visualization of 21+ compressible 3D RANS simulations. By shifting from manual GUI operations to a **headless, programmatic workflow**, this pipeline drastically accelerates the CFD design cycle.
 
----
-
-## Technical Stack
-*   **Simulation**: Ansys Fluent (v23.2)
-*   **Automation**: Python (Subprocess, Pathlib)
-*   **Data Handling**: PyVista (VTK-based mesh processing), NumPy, SciPy (Linear Interpolation)
-*   **Visualisation**: Matplotlib (Multi-axis subplots)
+### Automation Impact
+* **Scale Managed:** 21 parametric simulation cases (Mach, Reynolds, Temperature, Turbulence Intensity sweeps).
+* **Data Volume:** 230+ `.cgns` files automatically parsed and processed.
+* **Time Saved:** Reduced post-processing turnaround time by **70%** (from >10 hours of manual labor to <3 hours of automated, unattended execution).
 
 ---
 
-## Analysis & Visualization Explained
+## Pipeline Architecture
 
-The pipeline generates three primary types of visualisations to characterise the flow through a perforated screen.
+The workflow is divided into two distinct Python engines:
 
-### 1. Centerline Profiles (Axial Development)
+### 1. Headless Fluent Orchestrator (`Fluent_data_export.py`)
+Instead of manually creating planes and exporting data case-by-case, this script acts as a job manager. 
+* Autonomously generates `.jou` (Journal) files for batch execution.
+* Launches Ansys Fluent in **Headless Mode** (`-g` flag) via Python's `subprocess`.
+* Extracts multiple upstream/downstream cross-sectional planes and exports critical variables (Velocity, Mach, Stagnation Pressure) into the highly interoperable **CGNS format**.
 
-1. Mach Profile Centerlines
-
-<table style="width: 100%; border: none;">
-  <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/Mach_Profile_Centerline.png" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/Mach_Profile_Centerline.png" width="100%"><br>Temperature sweep</td>
-  </tr>
-</table>
-
-2. Normalised Stagnation Pressure Centerline
-
-<table style="width: 100%; border: none;">
-  <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Centerline.png" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Centerline.png" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Centerline.png" width="100%"><br>Temperature sweep</td>
-  </tr>
-</table>
-
-These plots track the evolution of the flow along the $Z$-axis (flow direction).
-*   **What it shows**: The transition from inlet conditions through a perforated screen (at $z=0$) into the downstream recovery region.
-*   **Key Insight**: The Mach number plots reveal the local acceleration as the flow is constricted through the "screen" geometry.
-By normalising the Stagnation Pressure, we can precisely quantify the grid's pressure loss coefficient. 
-### 2. Downstream Spatial Profiles (X-Y & Polar)
-
-1. Mach Profile downstream
-
-<table style="width: 100%; border: none;">
-  <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/Mach_Profile_Downstream.png" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/Mach_Profile_Downstream.png" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/Mach_Profile_Downstream.png" width="100%"><br>Temperature sweep</td>
-  </tr>
-</table>
-
-2. Normalised Stagnation Pressure downstream
-
-<table style="width: 100%; border: none;">
-  <tr style="border: none;">
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/TI/PressureStagnation_Profile_Downstream.png" width="100%"><br>Turbulence Intensity sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Downstream.png" width="100%"><br><b>Reynolds number sweep</td>
-    <td align="center" style="border: none;"><img src="Data-analysis_results/Field_variables/Temperature/PressureStagnation_Profile_Downstream.png" width="100%"><br>Temperature sweep</td>
-  </tr>
-</table>
-
-Flow data is extracted from 2D slices downstream of the disturbance.
-*   **Cartesian Profiles**: These 2D slices 1D downstream (50mm) of the screen show the periodic Mach deficits caused by the grid.
-*   **Polar Profiles**: Mach is sampled at a constant radius ($r = 0.021m$). 
-*   **Key Insight**: This is critical for identifying **azimuthal non-uniformity**. It proves whether the flow distorts more in the centre or near the duct walls.
-
-### 3. Normalised Stagnation Pressure Contours
-Combined contour plots (Reynolds sweep)
-
-![Turbulent Intensity](Data-analysis_results/Combined_Contour_plot/Re/0.90-PressureStagnation_Contour_plots.png)
-
-A comparative look at how Reynolds Number ($Re$) affects the distortion.
-*   **What it shows**: Iso-contours of $P_{norm} = 0.90$. 
-*   **Key Insight**: As the Reynolds number increases, the "islands" of pressure deficit change shape. This visualises the sensitivity of the generated distortion with the Reynolds number.
+### 2. PyVista / SciPy Processing Engine (`Post_processing_functions.py`)
+CFD outputs are typically unstructured. This engine handles the heavy mathematical lifting to make the data analyzable:
+* **Unstructured to Structured Mapping:** Utilizes `pyvista` to ingest CGNS files and `scipy.interpolate.griddata` to mathematically map raw CFD point-cloud data onto uniform 2D Cartesian and Polar grids.
+* **Coordinate Transformations:** Automatically converts X-Y spatial data into $(r, \theta)$ coordinates to evaluate azimuthal flow distortion metrics.
+* **Automated Normalization:** Dynamically extracts inlet boundary conditions to compute normalized stagnation pressure fields ($P_{norm}$) for accurate pressure-drop calculations.
 
 ---
 
-## Code Structure
+## Automated Physics Extraction
+The pipeline autonomously generates multi-axis, comparative visualizations to extract physical insights without human intervention.
 
-### `Fluent_data_export.py`
-Automates the "boring" part. Creating 10+ surfaces on 21+ different cases, each manually, is a labour-intensive, time-consuming process that would take 10+ hours. This code automates the complete process, saving time and effort. It iterates through 21+ simulation case files, creates plane surfaces at specific $d$ (diameters) upstream and downstream, and exports variables (Velocity, Mach, Pressure) to CGNS format in just 3 hours.
+### 1. Spatial Wake Distortion (Contour Tracking)
+Tracks how the wake of a perforated screen shifts under different Reynolds numbers.
+> ![0.90-PressureStagnation_Contour_plots](Data-analysis_results/Combined_Contour_plot/Re/0.90-PressureStagnation_Contour_plots.png)
 
-### `Post_processing_functions.py`
-The mathematical engine of the project:
-*   **`load_meshes()`**: Efficiently organises and loads dozens of CGNS files into PyVista objects.
-*   **`griddata` Interpolation**: Maps unstructured CFD data onto a uniform grid for clean plotting.
-*   **Modular Plotters**: Functions like `downstream_plot` and `centerline_plot` allow the same logic to be applied to any variable (Mach, TI, etc.) with a single call.
-
-### `Post-processing.py`
-The main execution script. It manages the metadata (labels, folder structures) and triggers the visualisation suite for each study (Mach analysis, Re analysis, etc.).
-
----
-
-## Key Results Highlight
-*   **Reynolds Sensitivity**: The analysis revealed that higher Reynolds numbers result in spread out pressure field which implies inlet distortion is a function of the Reynolds number.
-*   **Temperature Effects**: Mach number profiles remained consistent across temperatures when normalised, confirming the robustness of the non-dimensional analysis.
-*   **Automation Efficiency**: Reduced post-processing time from 10+ hours of manual labor to a **3-hours automated execution**.
+### 2. Azimuthal Non-Uniformity (Polar Profiles)
+Extracts Mach and Pressure fields at a constant radius ($r = 0.021m$) downstream to quantify flow distortion severity near duct walls.
+> ![Mach_Profile_Downstream](Data-analysis_results/Field_variables/Re/Mach_Profile_Downstream.png)
+> ![PressureStagnation_Profile_Downstream](Data-analysis_results/Field_variables/Re/PressureStagnation_Profile_Downstream.png)
+> 
+### 3. Axial Flow Development (Centerline Tracking)
+Maps the exact location of local acceleration (Mach spikes) and subsequent recovery zones.
+> ![Mach_Profile_Centerline](Data-analysis_results/Field_variables/Re/Mach_Profile_Centerline.png)
 
 ---
 
-## How to Use
-1.  **Export**: Run `Fluent_data_export.py` (requires Ansys Fluent installed).
-2.  **Process**: Ensure data is in the `/Data-analysis_files/` folder.
-3.  **Visualize**: Run `Post-processing.py` to generate all plots in the `/Data-analysis_results/` directory.
+## Usage & Execution
+
+Because this pipeline is designed for HPC environments, it is executed entirely via CLI.
+
+**1. Data Extraction (Requires Ansys Fluent path):**
+```bash
+python Fluent_data_export.py
+```
+*Note: Ensure `FLUENT_EXE` in the script points to your cluster/local Fluent binary path.*
+
+**2. Data Interpolation & Visualization:**
+```bash
+python Post-processing.py
+```
+*Outputs are automatically categorized and saved into structured directories under `/Data-analysis_results/`.*
+
+---
+
+## 🛠️ Technical Stack
+* **Simulation Automation:** Ansys Fluent Journaling, Headless Execution, Bash/HPC environments.
+* **Data Ingestion:** PyVista (VTK back-end), `.cgns` parsing.
+* **Mathematical Operations:** NumPy (Vectorization), SciPy (Linear Interpolation).
+* **Visualization:** Matplotlib (Automated Subplots).
+* 
