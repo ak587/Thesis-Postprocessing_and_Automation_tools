@@ -76,4 +76,3 @@ python Post-processing.py
 * **Data Ingestion:** PyVista (VTK back-end), `.cgns` parsing.
 * **Mathematical Operations:** NumPy (Vectorization), SciPy (Linear Interpolation).
 * **Visualization:** Matplotlib (Automated Subplots).
-* 
