@@ -13,7 +13,7 @@ This repository contains a **scalable Python infrastructure** built to completel
 ### Automation Impact
 * **Scale Managed:** 21 parametric simulation cases (Mach, Reynolds, Temperature, Turbulence Intensity sweeps).
 * **Data Volume:** 230+ `.cgns` files automatically parsed and processed.
-* **Time Saved:** Reduced post-processing turnaround time by **70%** (from >10 hours of manual labor to <3 hours of automated, unattended execution).
+* **Time Saved:** Reduced post-processing turnaround time by **60%** (from >10 hours of manual labor to <4 hours of automated, unattended execution).
 
 ---
 
